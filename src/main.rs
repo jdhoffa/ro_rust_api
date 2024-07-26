@@ -3,6 +3,7 @@ extern crate rocket;
 
 use csv::ReaderBuilder;
 use rocket::serde::{json::Json, Deserialize, Serialize};
+use rocket_okapi::{openapi, openapi_get_routes};
 use schemars::JsonSchema;
 use std::fs::File;
 use std::io::BufReader;
@@ -48,11 +49,13 @@ async fn get_data<T: for<'de> Deserialize<'de>>(file_path: &str) -> Json<Vec<T>>
     Json(records)
 }
 
+#[openapi]
 #[get("/data/iris")]
 async fn get_iris_data() -> Json<Vec<Iris>> {
     get_data::<Iris>("data/iris.csv").await
 }
 
+#[openapi]
 #[get("/data/boston")]
 async fn get_boston_data() -> Json<Vec<Boston>> {
     get_data::<Boston>("data/boston.csv").await
@@ -60,5 +63,5 @@ async fn get_boston_data() -> Json<Vec<Boston>> {
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![get_iris_data, get_boston_data])
+    rocket::build().mount("/", openapi_get_routes![get_iris_data, get_boston_data])
 }
