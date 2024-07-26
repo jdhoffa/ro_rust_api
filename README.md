@@ -37,3 +37,7 @@ You can also build and run the API using Docker and `docker compose`:
     docker compose up --build
     ```
 The server will start on http://0.0.0.0:8000. You can access the data at http://0.0.0.0:8000/data/iris.
+
+## Documentation
+
+The API documentation is served using Swagger UI and can be accessed at http://localhost:8000/docs.
