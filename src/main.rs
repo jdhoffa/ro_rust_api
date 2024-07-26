@@ -67,7 +67,7 @@ fn rocket() -> _ {
     rocket::build()
         .mount("/", openapi_get_routes![get_iris_data, get_boston_data])
         .mount(
-            "/swagger",
+            "/docs",
             make_swagger_ui(&SwaggerUIConfig {
                 url: "../openapi.json".to_string(),
                 ..Default::default()
