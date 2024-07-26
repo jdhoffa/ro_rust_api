@@ -3,10 +3,11 @@ extern crate rocket;
 
 use csv::ReaderBuilder;
 use rocket::serde::{json::Json, Deserialize, Serialize};
+use schemars::JsonSchema;
 use std::fs::File;
 use std::io::BufReader;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, JsonSchema)]
 struct Iris {
     sepal_length: f64,
     sepal_width: f64,
@@ -15,7 +16,7 @@ struct Iris {
     species: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, JsonSchema)]
 struct Boston {
     crim: f64,
     zn: f64,
