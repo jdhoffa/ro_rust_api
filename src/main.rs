@@ -3,6 +3,7 @@ extern crate rocket;
 
 use csv::ReaderBuilder;
 use rocket::serde::{json::Json, Deserialize, Serialize};
+use rocket_okapi::swagger_ui::{make_swagger_ui, SwaggerUIConfig};
 use rocket_okapi::{openapi, openapi_get_routes};
 use schemars::JsonSchema;
 use std::fs::File;
@@ -63,5 +64,13 @@ async fn get_boston_data() -> Json<Vec<Boston>> {
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", openapi_get_routes![get_iris_data, get_boston_data])
+    rocket::build()
+        .mount("/", openapi_get_routes![get_iris_data, get_boston_data])
+        .mount(
+            "/swagger",
+            make_swagger_ui(&SwaggerUIConfig {
+                url: "../openapi.json".to_string(),
+                ..Default::default()
+            }),
+        )
 }
